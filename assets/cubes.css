@@ -1,0 +1,66 @@
+body {
+    background-color: #696c72;
+    padding: 0px;
+}
+
+.wrapper {
+    display: grid;
+    grid-template-columns: repeat(3, auto);
+    grid-gap: 10px;
+    overflow: hidden;
+}
+
+.scene {
+    /*border: 1px solid #ccc;*/
+    perspective: 1000px;
+    height: calc(50vh - 13px);
+    background-color: #8e939b;
+}
+
+.cube {
+    position: relative;
+    transform-style: preserve-3d;
+}
+
+.cube-face {
+    position: absolute;
+    border: 0px solid #222222;
+    padding: 0px;
+    margin: 0px;
+    font-size: 20px;
+    font-weight: bold;
+    color: white;
+    text-align: center;
+    backface-visibility: visible;
+    box-shadow: inset 0px 0px 0px 1px #222222 !important;
+    display: none;
+}
+
+.cube-face-front {
+    background: hsla(0, 100%, 50%, 0.7);
+}
+.cube-face-right {
+    background: hsla(60, 100%, 50%, 0.7);
+}
+.cube-face-back {
+    background: hsla(120, 100%, 50%, 0.7);
+}
+.cube-face-left {
+    background: hsla(180, 100%, 50%, 0.7);
+}
+.cube-face-top {
+    background: hsla(240, 100%, 50%, 0.7);
+}
+.cube-face-bottom {
+    background: hsla(300, 100%, 50%, 0.7);
+}
+
+div {
+    -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+    -khtml-user-select: none; /* Konqueror HTML */
+    -moz-user-select: none; /* Firefox */
+    -ms-user-select: none; /* Internet Explorer/Edge */
+    user-select: none; /* Non-prefixed version, currently
+                                    supported by Chrome and Opera */
+}
