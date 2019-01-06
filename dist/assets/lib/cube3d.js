@@ -1,3 +1,5 @@
+/* eslint no-plusplus: ["error", { "allowForLoopAfterthoughts": true }]*/
+
 // eslint-disable-next-line
 const cube3d = selector => {
     let _selector = $(selector);
@@ -35,8 +37,8 @@ const cube3d = selector => {
             leftFace: () => $(target).find('.cube-face-left'),
             rightFace: () => $(target).find('.cube-face-right'),
 
-            rotateY: (angle, duration, completeFn = undefined) => {
-                angleY += angle;
+            rotateYTo: (angle, duration, completeFn = undefined) => {
+                angleY = angle;
 
                 $(target).snabbt({
                     rotation: [g2r(angleX), g2r(angleY + 0.05), 0],
@@ -54,8 +56,12 @@ const cube3d = selector => {
                 });
             },
 
-            rotateX: (angle, duration, completeFn = undefined) => {
-                angleX += angle;
+            rotateY: (angle, duration, completeFn = undefined) => {
+                self.rotateYTo(angleY + angle, duration, completeFn);
+            },
+
+            rotateXTo: (angle, duration, completeFn = undefined) => {
+                angleX = angle;
 
                 $(target).snabbt({
                     rotation: [g2r(angleX), g2r(angleY), 0],
@@ -72,6 +78,32 @@ const cube3d = selector => {
                         }
                     }
                 });
+            },
+
+            rotateX: (angle, duration, completeFn = undefined) => {
+                self.rotateXTo(angleX + angle, duration, completeFn);
+            },
+
+            shake: (interval = 100, distance = 10) => {
+                const times = 3;
+                const damping = 0.8;
+
+                for (let i = 0; i < times + 1; i++) {
+                    // eslint-disable-next-line
+                    const amt = (Math.pow(-1, i) * distance) / (i * damping);
+                    $(target).animate(
+                        {
+                            top: amt
+                        },
+                        100
+                    );
+                }
+                $(target).animate(
+                    {
+                        top: 0
+                    },
+                    interval
+                );
             },
 
             flipX: (angle, duration, flipFn, completeFn = undefined) => {
@@ -187,23 +219,29 @@ const cube3d = selector => {
             };
         },
 
+        createEl: (parent, id) => {
+            const _sceneEl = $('<div/>', { id: id, class: 'scene' });
+            const _cubeEl = $('<div/>', { class: 'cube' });
+
+            $(_cubeEl).append($('<div/>', { class: 'cube-face cube-face-front' }));
+            $(_cubeEl).append($('<div/>', { class: 'cube-face cube-face-back' }));
+
+            $(_cubeEl).append($('<div/>', { class: 'cube-face cube-face-left' }));
+            $(_cubeEl).append($('<div/>', { class: 'cube-face cube-face-right' }));
+
+            $(_cubeEl).append($('<div/>', { class: 'cube-face cube-face-top' }));
+            $(_cubeEl).append($('<div/>', { class: 'cube-face cube-face-bottom' }));
+
+            $(_sceneEl).append(_cubeEl);
+            $(parent).append(_sceneEl);
+
+            return _sceneEl;
+        },
+
         create: (parent, id, cubeWidth, cubeHeight, cubeDepth) => {
-            const scene = $('<div/>', { id: id, class: 'scene' });
-            const cube = $('<div/>', { class: 'cube' });
+            const _scene = self.createEl(parent, id);
+            _selector = _scene;
 
-            $(cube).append($('<div/>', { class: 'cube-face cube-face-front' }));
-            $(cube).append($('<div/>', { class: 'cube-face cube-face-back' }));
-
-            $(cube).append($('<div/>', { class: 'cube-face cube-face-left' }));
-            $(cube).append($('<div/>', { class: 'cube-face cube-face-right' }));
-
-            $(cube).append($('<div/>', { class: 'cube-face cube-face-top' }));
-            $(cube).append($('<div/>', { class: 'cube-face cube-face-bottom' }));
-
-            $(scene).append(cube);
-            $(parent).append(scene);
-
-            _selector = scene;
             return self.init(cubeWidth, cubeHeight, cubeDepth);
         }
     };
