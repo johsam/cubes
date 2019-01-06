@@ -23,7 +23,7 @@ $(function() {
     //const scene6 = cube3d('#scene-6').init(hw, hh * 0.5, 35);
     //const cube6 = scene6.cube();
 
-    const scene6 = cube3d().create('.wrapper', '#scene-7', hw, hh * 0.5, 35);
+    const scene6 = cube3d().create('.wrapper', 'scene-7', hw, hh * 0.5, 35);
     const cube6 = scene6
         .cube()
         .majorX()
