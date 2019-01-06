@@ -7,3 +7,4 @@ Memory Game https://johsam.github.io/cubes/memory
 
 ![Cubes](dist/assets/images/demo.gif)
 
+![Memory](dist/assets/images/memory.gif)
